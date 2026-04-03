@@ -65,23 +65,99 @@ pip install torch torchvision torchaudio transformers tqdm numpy librosa soundfi
 
 ## Figures (local-only)
 
-The README references a few local figures for convenience. **They are intentionally excluded from Git commits** (see `.gitignore`), so they will not render on GitHub unless you provide your own hosted URLs or keep them locally.
+The report includes several figures (training curves, methodology diagrams, etc.). **These image files are intentionally excluded from Git commits** (see `.gitignore`), so they cannot render on GitHub from this repository.
 
-- Training/validation progress:
+Local-only figure references:
 
-  ![Training and Validation Progress](Train%20Dev%20Progress.png)
+- Training/validation progress: [Train Dev Progress.png](Train%20Dev%20Progress.png)
+- Updated methodology diagram: [Updated Detailed Methodology.png](Updated%20Detailed%20Methodology.png)
+- Artifact confidence distribution: [Confidence.png](Confidence.png)
+- Heatmap: [HeatMap.png](HeatMap.png)
 
-- Updated methodology diagram:
+If you want these to render on GitHub **without committing images**, the images must be hosted somewhere (e.g., GitHub Releases or an external host) and the links above should be replaced with hosted URLs.
 
-  ![Updated Detailed Methodology](Updated%20Detailed%20Methodology.png)
+## Key Tables (from the report)
 
-- Confidence distribution:
+### ASVspoof 2019 LA official splits
 
-  ![Artifact Confidence](Confidence.png)
+| Set | Bonafide (Real) | Spoofed (Fake) | Total Samples |
+|---|---:|---:|---:|
+| Training | 2,580 | 22,800 | 25,380 |
+| Development (Validation) | 2,548 | 22,296 | 24,844 |
+| Evaluation (Test) | 7,355 | 63,882 | 71,237 |
 
-- Heatmap:
+### Augmented training composition (used for robustness)
 
-  ![Heatmap](HeatMap.png)
+| Source Dataset | Type | Samples for Training |
+|---|---|---:|
+| ASVspoof 2019 LA | Bonafide | 2,580 |
+| LJSpeech | Bonafide | 5,000 |
+| Release-In-the-Wild (Real) | Bonafide | ≈1,500 |
+| **Total Bonafide** |  | **≈9,080** |
+| ASVspoof 2019 LA | Spoofed | 22,800 |
+| WaveFake | Spoofed | ≈2,000 |
+| Release-In-the-Wild (Fake) | Spoofed | ≈1,000 |
+| **Total Spoofed** |  | **≈25,800** |
+| **Total training samples** |  | **≈34,880** |
+
+### Training hyperparameters (20 epochs)
+
+| Hyperparameter | Value |
+|---|---|
+| Optimizer | AdamW |
+| Initial learning rate | 1×10^-4 |
+| Weight decay | 0.01 |
+| Batch size | 32 |
+| Total epochs | 20 |
+| LR scheduler | CosineAnnealingLR with warmup |
+| Warmup epochs | 3 |
+| Gradient clipping norm | 1.0 |
+| Mixed precision | FP16 (enabled) |
+| Focal loss γ | 2.0 |
+| NT-Xent temperature τ | 0.07 |
+| Loss weights | λ1=1.0 (Focal), λ2=0.3 (Attack), λ3=0.15 (NT-Xent), λ4=0.1 (Triplet), λ5=0.05 (Consistency), λ6=0.1 (MI penalty) |
+
+### Training/validation snapshots
+
+| Epoch | Train Loss | Train Acc | Val Loss | Val Acc | Val F1 | Val AUC |
+|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 0.6234 | 65.2% | 0.5892 | 68.4% | 0.671 | 0.742 |
+| 5 | 0.3897 | 83.7% | 0.3845 | 84.8% | 0.846 | 0.909 |
+| 10 | 0.2654 | 89.2% | 0.2789 | 88.6% | 0.884 | 0.951 |
+| 15 | 0.2012 | 92.1% | 0.2234 | 91.3% | 0.912 | 0.968 |
+| 20 | 0.1623 | 93.8% | 0.1987 | 92.7% | 0.926 | 0.977 |
+
+### Evaluation set performance (epoch-20 checkpoint)
+
+| Metric | Value |
+|---|---:|
+| Equal Error Rate (EER) | 6.8% |
+| Overall Accuracy | 92.5% |
+| AUC-ROC | 0.975 |
+| Macro F1-Score | 0.924 |
+| Weighted F1-Score | 0.925 |
+| Precision (Bonafide) | 93.1% |
+| Recall (Bonafide) | 92.2% |
+| Precision (Spoofed) | 92.4% |
+| Recall (Spoofed) | 93.3% |
+
+Note: The report abstract also mentions **95.5% accuracy**; the detailed evaluation table above reports **92.5%** after 20 epochs.
+
+### Confusion matrix (evaluation set, 20 epochs)
+
+|  | Predicted Bonafide | Predicted Spoofed | Total |
+|---|---:|---:|---:|
+| Actual Bonafide | 6,781 (TN) | 574 (FP) | 7,355 |
+| Actual Spoofed | 4,280 (FN) | 59,602 (TP) | 63,882 |
+| Total | 11,061 | 60,176 | 71,237 |
+
+### Baseline comparison (20 epochs)
+
+| Model | Accuracy | F1-Score | AUC-ROC | EER |
+|---|---:|---:|---:|---:|
+| ResNet50 (baseline) | 87.3% | 0.871 | 0.934 | 11.8% |
+| Wav2Vec 2.0 (fine-tuned) | 91.2% | 0.911 | 0.965 | 7.8% |
+| EchoShield (20 epochs) | 92.5% | 0.924 | 0.975 | 6.8% |
 
 ## How to Cite
 
