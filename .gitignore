@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+*.pkl
+*.pt
+*.pth
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Large / derived artifacts
+*.log
+*.tmp
+
+# Do NOT commit extracted paper text
+echoshield_paper_extracted.txt
+
+# Local-only tooling
+tools/
+
+# Do NOT commit images (keep local-only)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.svg
