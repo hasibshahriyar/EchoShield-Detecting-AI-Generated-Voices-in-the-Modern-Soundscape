@@ -4,7 +4,11 @@ EchoShield is a dual-branch deep learning framework for **AI-generated / deepfak
 
 This repository contains:
 - The project report (PDF): **EchoShield Detecting AI Generated Voices in the Modern Soundscape.pdf**
-- A Kaggle-ready training notebook: **clap-and-vit-2.ipynb**
+- **Kaggle_Local_Training.ipynb**: The fully implemented and improved DDM architecture (≈402M params) featuring 5 major innovations (AACA, DLSN, BCBI, MVCL, Attack-Type Discriminative Branch). 
+- **SOTA_DeepFake.ipynb**: A variant tailored for large-scale training on different devices with local dataset environments.
+- **Validate_DeepFake.ipynb**: Specifically configured for validation and testing on the ASVspoof 2021 DF evaluation dataset.
+- **clap-and-vit-2.ipynb**: A Kaggle-ready training notebook layout.
+- Initial dataset and testing scripts (**code.ipynb**, **dataset.ipynb**).
 
 ## Highlights
 
@@ -37,31 +41,24 @@ The primary benchmark is **ASVspoof 2019 Logical Access (LA)**.
 
 The report also discusses improving generalization using additional fake sources (e.g., **WaveFake/LJSpeech** and **Release-In-The-Wild**) and recommends cross-dataset validation (e.g., ASVspoof 2021).
 
-## Quickstart (Kaggle)
+## Quickstart (Kaggle & Local)
 
-The notebook is written to run on Kaggle with GPU.
+The primary implementation notebook is **Kaggle_Local_Training.ipynb**, bringing together all the advanced innovations discussed in the report.
 
+### Running on Kaggle
 1. Create a Kaggle Notebook and enable GPU.
 2. Add the ASVspoof 2019 dataset to the notebook (the notebook references this Kaggle dataset):
    - https://www.kaggle.com/datasets/awsaf49/asvpoof-2019-dataset
-3. Open and run **clap-and-vit-2.ipynb** top-to-bottom.
+3. Open and run **clap-and-vit-2.ipynb** top-to-bottom for the standard Kaggle layout.
 
-The notebook expects the Kaggle dataset layout described in its first markdown cells.
-
-## Local Run (minimal guidance)
-
-If you want to run locally, you’ll need:
-- Python
-- PyTorch + torchaudio
-- Transformers
-- Librosa, SoundFile
-- Scikit-learn, Matplotlib, Seaborn
-
-The notebook’s first code cell installs common dependencies:
+### Running Locally
+To run the novel DDM implementation locally (**Kaggle_Local_Training.ipynb**), use the following Python packages:
 
 ```bash
 pip install torch torchvision torchaudio transformers tqdm numpy librosa soundfile scikit-learn matplotlib seaborn
 ```
+
+If testing ASVspoof 2021 DF specifically, see **Validate_DeepFake.ipynb**. For multi-GPU/larger cluster configurations, refer to **SOTA_DeepFake.ipynb**.
 
 ## Figures (local-only)
 
@@ -169,7 +166,3 @@ If you reference this work, cite the project report:
 
 - The report emphasizes generalization; reproducing cross-dataset claims depends on having the corresponding datasets available.
 - Training at scale requires GPU resources (the report uses Kaggle GPUs for final runs).
-
----
-
-If you want the images to render on GitHub *without committing image files*, tell me where you’d like them hosted (e.g., GitHub Releases, an external CDN, or a separate repo), and I’ll adjust the README links accordingly.
