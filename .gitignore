@@ -54,3 +54,7 @@ checkpoint_*.pth
 *backup.ipynb
 fix_notebook.py
 FIXES_NEEDED.md
+!Train Dev Progress.png
+!Confidence.png
+!HeatMap.png
+!Methodology.png

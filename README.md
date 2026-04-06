@@ -60,18 +60,21 @@ pip install torch torchvision torchaudio transformers tqdm numpy librosa soundfi
 
 If testing ASVspoof 2021 DF specifically, see **Validate_DeepFake.ipynb**. For multi-GPU/larger cluster configurations, refer to **SOTA_DeepFake.ipynb**.
 
-## Figures (local-only)
+## Figures (Methodology & Performance)
 
-The report includes several figures (training curves, methodology diagrams, etc.). **These image files are intentionally excluded from Git commits** (see `.gitignore`), so they cannot render on GitHub from this repository.
+The following diagrams and charts illustrate the EchoShield methodology and the model's training and evaluation performance exactly as presented in the report.
 
-Local-only figure references:
+### 1. EchoShield Architecture
+![Methodology](Methodology.png)
 
-- Training/validation progress: [Train Dev Progress.png](Train%20Dev%20Progress.png)
-- Updated methodology diagram: [Updated Detailed Methodology.png](Updated%20Detailed%20Methodology.png)
-- Artifact confidence distribution: [Confidence.png](Confidence.png)
-- Heatmap: [HeatMap.png](HeatMap.png)
+### 2. Dynamic Layer Selection Network Weight Distribution
+![HeatMap](HeatMap.png)
 
-If you want these to render on GitHub **without committing images**, the images must be hosted somewhere (e.g., GitHub Releases or an external host) and the links above should be replaced with hosted URLs.
+### 3. Artifact Confidence Distributions and Boxplots
+![Confidence](Confidence.png)
+
+### 4. Training and Validation Progress
+![Train Dev Progress](Train%20Dev%20Progress.png)
 
 ## Key Tables (from the report)
 
